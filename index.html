@@ -3,69 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TengeOS | Project started...</title>
+    <title>TengeOS | HyperOS ROMs</title>
     <style>
-        /* Обнуляем отступы, чтобы градиент был на весь экран */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
+        :root {
+            --bg-color: #0a0a0c;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent: #007aff; /* Цвет HyperOS / iOS */
+            --text-main: #ffffff;
+            --text-dim: #a1a1a6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Вот он — твой градиент (от темно-синего к почти черному) */
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            background: radial-gradient(circle at top, #1c1c1e 0%, #0a0a0c 100%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            text-align: center;
         }
 
-        .container {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 3rem;
-            border-radius: 24px;
-            background: rgba(30, 41, 59, 0.5); /* Полупрозрачный фон карточки */
-            backdrop-filter: blur(10px); /* Эффект матового стекла */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        /* Заголовок */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
         }
 
         h1 {
             font-size: 3rem;
             margin: 0;
-            /* Текст тоже можно сделать градиентным! */
-            background: linear-gradient(to right, #10b981, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
 
-        p {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            margin-top: 1rem;
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            margin-top: 10px;
         }
 
-        .status {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 0.5rem 1rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            border-radius: 99px;
-            color: #10b981;
+        .credits a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Сетка для плашек (2 в ряд) */
+        .rom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* Стиль плашки */
+        .rom-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .rom-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .rom-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .version-badge {
             font-size: 0.8rem;
+            background: var(--accent);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .codename {
+            color: var(--accent);
             font-family: monospace;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .changelog {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+
+        .changelog ul {
+            margin: 5px 0 0 18px;
+            padding: 0;
+        }
+
+        @media (max-width: 600px) {
+            .rom-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <header>
         <h1>TengeOS</h1>
-        <p>Site in developing</p>
-        <div class="status">host: tengeos.github.io</div>
+        <div class="subtitle">ROM based on HyperOS</div>
+        <div class="credits">by <a href="#">@wectazz</a> and <a href="#">@iduchamp</a></div>
+    </header>
+
+    <div class="rom-grid">
+        
+        <div class="rom-card">
+            <div class="rom-title">
+                TengeOS Premium 
+                <span class="version-badge">v1.0</span>
+            </div>
+            <span class="codename">#sweet (Redmi Note 10 Pro)</span>
+            <div class="changelog">
+                <strong>Changelog:</strong>
+                <ul>
+                    <li>Initial Build based on HyperOS</li>
+                    <li>Added Tenge Icons pack</li>
+                    <li>Battery life improvements</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="rom-card">
+            <div class="rom-title">
+                TengeOS Light 
+                <span class="version-badge">v1.2</span>
+            </div>
+            <span class="codename">#alioth (POCO F3)</span>
+            <div class="changelog">
+                <strong>Changelog:</strong>
+                <ul>
+                    <li>Decrypted by default</li>
+                    <li>Fixed NFC payment issues</li>
+                    <li>New boot animation</li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
 </body>
