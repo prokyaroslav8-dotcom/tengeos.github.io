@@ -6,9 +6,10 @@
     <title>TengeOS | HyperOS Project</title>
     <style>
         :root {
-            --accent: #007aff; 
+            --accent: #6366f1; /* Indigo */
             --text-main: #ffffff;
-            --text-dim: #a1a1a6;
+            --text-dim: #94a3b8;
+            --bg-dark: #020617;
         }
 
         body {
@@ -20,253 +21,174 @@
             align-items: center;
             color: var(--text-main);
             min-height: 100vh;
-            /* Чуть более светлый анимированный фон */
-            background: linear-gradient(-45deg, #0f172a, #1e3a8a, #3b0764, #701a75, #0f172a);
-            background-size: 400% 400%;
-            animation: hyperGradient 15s ease infinite;
-            background-attachment: fixed;
+            background-color: var(--bg-dark);
+            overflow-x: hidden;
+            position: relative;
         }
 
-        @keyframes hyperGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Анимированные пятна индиго на фоне */
+        .bg-blobs {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.6;
         }
 
-        /* Увеличенные отступы в шапке */
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #312e81 0%, transparent 70%);
+            animation: move 20s infinite alternate;
+        }
+
+        .blob-1 { top: -10%; left: -10%; background: radial-gradient(circle, #4338ca 0%, transparent 70%); }
+        .blob-2 { bottom: -10%; right: -10%; animation-delay: -5s; background: radial-gradient(circle, #1e1b4b 0%, transparent 70%); }
+
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20vw, 30vh) scale(1.2); }
+            100% { transform: translate(-10vw, 10vh) scale(1); }
+        }
+
         header {
             text-align: center;
-            margin-bottom: 80px; /* Больше места до карточек */
+            margin-bottom: 80px;
+            z-index: 10;
         }
 
         h1 {
-            font-size: 4rem;
-            margin: 0 0 25px 0; /* Отступ под TengeOS */
-            letter-spacing: -2px;
-            color: #ffffff;
+            font-size: 4.5rem;
+            margin: 0 0 10px 0;
+            letter-spacing: -3px;
+            font-weight: 800;
         }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-dim);
-            margin-bottom: 20px;
-        }
-
-        .telegram-link {
-            display: inline-block;
-            margin-bottom: 25px;
-            color: #38bdf8;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .credits { 
-            font-size: 0.9rem; 
-            color: rgba(255,255,255,0.4); 
-            margin-top: 10px;
-        }
-        .credits a { color: #fff; text-decoration: none; border-bottom: 1px solid var(--accent); }
+        .subtitle { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 15px; }
+        .telegram-link { color: #818cf8; text-decoration: none; font-weight: 600; font-size: 1.1rem; }
+        .credits { font-size: 0.8rem; color: #475569; margin-top: 20px; }
 
         .rom-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-            max-width: 1600px;
+            gap: 20px;
+            max-width: 1400px;
             width: 100%;
+            z-index: 10;
         }
 
         .rom-card {
             position: relative;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
             padding: 24px;
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .rom-card:hover { transform: translateY(-10px); }
-
-        /* Градиентная рамка */
-        .rom-card::before {
-            content: "";
-            position: absolute;
-            top: -1px; left: -1px; right: -1px; bottom: -1px;
-            border-radius: 28px;
-            padding: 2px;
-            background: linear-gradient(45deg, #3b82f6, #a855f7, #ec4899);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-        .rom-card:hover::before { opacity: 1; }
-
-        /* СЛАЙДЕР СКРИНШОТОВ */
-        .slider-container {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            margin: 15px 0;
-            overflow: hidden;
-            border-radius: 16px;
+        .rom-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .slider-track {
-            display: flex;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-        }
-
-        .slide {
-            min-width: 80%; /* Чтобы края соседних были видны */
-            margin: 0 10%;
-            background: #222;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Кнопки влево-вправо */
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 5;
-            font-weight: bold;
-        }
-        .btn-prev { left: 5px; }
-        .btn-next { right: 5px; }
-        .slider-btn:hover { background: var(--accent); }
-
-        /* Точки навигации */
-        .dots {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 15px;
-        }
-        .dot {
-            width: 6px;
-            height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-        }
-        .dot.active { background: var(--accent); width: 12px; border-radius: 4px; }
-
-        .rom-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; display: block; }
-        .codename { color: #38bdf8; font-family: monospace; font-size: 0.85rem; margin-bottom: 15px; display: block; }
+        .rom-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+        .codename { color: var(--accent); font-family: monospace; font-size: 0.9rem; margin-bottom: 20px; display: block; }
 
         .changelog {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 16px;
+            flex-grow: 1;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            border-radius: 20px;
             font-size: 0.85rem;
-            color: #d1d5db;
+            color: #cbd5e1;
             margin-bottom: 20px;
         }
         .changelog ul { margin: 5px 0 0 18px; padding: 0; }
 
-        .download-btn {
-            z-index: 10;
-            display: block;
+        .button-group {
+            display: flex;
+            flex-direction: column; /* На мобилках в столбик, на ПК в ряд ниже */
+            gap: 8px;
+        }
+
+        .row-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .download-btn, .screenshot-btn {
             text-align: center;
-            background: #fff;
-            color: #000 !important;
             text-decoration: none;
-            padding: 12px;
-            border-radius: 14px;
+            padding: 14px;
+            border-radius: 16px;
             font-weight: 700;
+            font-size: 0.85rem;
             transition: all 0.2s;
         }
-        .download-btn:hover { background: var(--accent); color: #fff !important; }
 
-        @media (max-width: 1400px) { .rom-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 700px) { .rom-grid { grid-template-columns: 1fr; } }
+        .download-btn {
+            background: #ffffff;
+            color: #000000;
+            width: 100%; /* Главная кнопка широкая */
+        }
+
+        .screenshot-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            flex: 1; /* Кнопки скриншотов делят место */
+        }
+
+        .download-btn:hover { background: var(--accent); color: white; }
+        .screenshot-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
+        @media (max-width: 1200px) { .rom-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 650px) { .rom-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
     <header>
         <h1>TengeOS</h1>
-        <div class="subtitle">Next-gen HyperOS Experience</div>
+        <div class="subtitle">Premium HyperOS Ports</div>
         <a href="https://t.me/TengeOS_Roms" class="telegram-link">Telegram: TengeOS_Roms</a>
-        <div class="credits">by <a href="#">@wectazz</a> and <a href="#">@iduchamp</a></div>
+        <div class="credits">by @wectazz and @iduchamp</div>
     </header>
 
     <div class="rom-grid">
         
         <div class="rom-card">
-            <span class="rom-name">TengeOS Build</span>
-            <span class="codename">#sweet</span>
-
-            <div class="slider-container">
-                <button class="slider-btn btn-prev" onclick="moveSlider(this, -1)">&lt;</button>
-                <div class="slider-track">
-                    <div class="slide"><img src="img/duchamp304portsc1.jpg" alt="Screenshot 1"></div>
-                    <div class="slide"><img src="https://via.placeholder.com/400x800/333/fff?text=Screen+2" alt="Screenshot 2"></div>
-                    <div class="slide"><img src="https://via.placeholder.com/400x800/444/fff?text=Screen+3" alt="Screenshot 3"></div>
-                </div>
-                <button class="slider-btn btn-next" onclick="moveSlider(this, 1)">&gt;</button>
-            </div>
-            <div class="dots">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
+            <span class="rom-name">TengeOS Ultra</span>
+            <span class="codename">#alioth</span>
             <div class="changelog">
-                <strong>Changelog:</strong>
+                <strong>Main features:</strong>
                 <ul>
-                    <li>HyperOS Base</li>
-                    <li>Premium Blur</li>
-                    <li>Battery Fix</li>
+                    <li>HyperOS 2.0 Base</li>
+                    <li>Indigo Theme Engine</li>
+                    <li>Decrypted by default</li>
                 </ul>
             </div>
-            <a href="#" target="_blank" class="download-btn">Download ROM</a>
-        </div>
+            <div class="button-group">
+                <a href="#" class="download-btn">Download ROM</a>
+                <div class="row-btns">
+                    <a href="#" class="screenshot-btn">Screens 1</a>
+                    <a href="#" class="screenshot-btn">Screens 2</a>
+                </div>
+            </div>
         </div>
 
-    <script>
-        // Скрипт для работы слайдера
-        function moveSlider(btn, direction) {
-            const container = btn.parentElement;
-            const track = container.querySelector('.slider-track');
-            const dots = container.nextElementSibling.querySelectorAll('.dot');
-            let currentIdx = parseInt(track.dataset.index || 0);
-            
-            currentIdx += direction;
-            
-            if (currentIdx < 0) currentIdx = 2; // Если начало - в конец
-            if (currentIdx > 2) currentIdx = 0; // Если конец - в начало
-            
-            track.style.transform = `translateX(-${currentIdx * 100}%)`;
-            track.dataset.index = currentIdx;
-
-            // Обновляем точки
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[currentIdx].classList.add('active');
-        }
-    </script>
+        </div>
 
 </body>
 </html>
