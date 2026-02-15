@@ -32,7 +32,7 @@
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: -1;
             filter: blur(100px);
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         .blob {
@@ -64,6 +64,7 @@
             margin: 0 0 10px 0;
             letter-spacing: -3px;
             font-weight: 800;
+            color: #fff;
         }
 
         .subtitle { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 15px; }
@@ -92,10 +93,9 @@
         }
 
         .rom-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.06);
             border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .rom-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
@@ -108,48 +108,45 @@
             border-radius: 20px;
             font-size: 0.85rem;
             color: #cbd5e1;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .changelog ul { margin: 5px 0 0 18px; padding: 0; }
 
-        .button-group {
+        /* Контейнер для двух одинаковых кнопок в ряд */
+        .button-row {
             display: flex;
-            flex-direction: column; /* На мобилках в столбик, на ПК в ряд ниже */
-            gap: 8px;
+            gap: 10px;
+            width: 100%;
         }
 
-        .row-btns {
-            display: flex;
-            gap: 8px;
-        }
-
-        .download-btn, .screenshot-btn {
+        .btn {
+            flex: 1; /* Одинаковый размер для обеих кнопок */
             text-align: center;
             text-decoration: none;
-            padding: 14px;
+            padding: 14px 5px;
             border-radius: 16px;
             font-weight: 700;
             font-size: 0.85rem;
             transition: all 0.2s;
-        }
-
-        .download-btn {
             background: #ffffff;
-            color: #000000;
-            width: 100%; /* Главная кнопка широкая */
+            color: #000000 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
         }
 
-        .screenshot-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            flex: 1; /* Кнопки скриншотов делят место */
+        .btn:hover {
+            background: var(--accent);
+            color: #ffffff !important;
+            transform: scale(1.02);
         }
-
-        .download-btn:hover { background: var(--accent); color: white; }
-        .screenshot-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
         @media (max-width: 1200px) { .rom-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 650px) { .rom-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 750px) { 
+            .rom-grid { grid-template-columns: 1fr; } 
+            .button-row { flex-direction: column; } /* На узких экранах одна под другой */
+        }
     </style>
 </head>
 <body>
@@ -169,25 +166,21 @@
     <div class="rom-grid">
         
         <div class="rom-card">
-            <span class="rom-name">TengeOS Ultra</span>
-            <span class="codename">#alioth</span>
+            <span class="rom-name">TengeOS Edition</span>
+            <span class="codename">#device_name</span>
             <div class="changelog">
-                <strong>Main features:</strong>
+                <strong>Changelog:</strong>
                 <ul>
-                    <li>HyperOS 2.0 Base</li>
-                    <li>Indigo Theme Engine</li>
-                    <li>Decrypted by default</li>
+                    <li>HyperOS 3.0</li>
+                    <li>Indigo Gradient</li>
+                    <li>Performance boost</li>
                 </ul>
             </div>
-            <div class="button-group">
-                <a href="#" class="download-btn">Download ROM</a>
-                <div class="row-btns">
-                    <a href="#" class="screenshot-btn">Screens 1</a>
-                    <a href="#" class="screenshot-btn">Screens 2</a>
-                </div>
+            <div class="button-row">
+                <a href="#" target="_blank" class="btn">Screenshots</a>
+                <a href="#" target="_blank" class="btn">Download ROM</a>
             </div>
         </div>
-
         </div>
 
 </body>
