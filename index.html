@@ -10,7 +10,7 @@
             --text-main: #ffffff;
             --text-dim: #94a3b8;
             --bg-dark: #020617;
-            --flash-color: rgba(99, 102, 241, 0.5); /* Цвет вспышки */
+            --flash-color: rgba(99, 102, 241, 0.5);
         }
 
         body {
@@ -27,7 +27,6 @@
             position: relative;
         }
 
-        /* Фон с 4-мя анимированными пятнами */
         .bg-blobs {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -72,16 +71,16 @@
         .telegram-link { color: #818cf8; text-decoration: none; font-weight: 600; font-size: 1.1rem; }
         .credits { font-size: 0.8rem; color: #475569; margin-top: 20px; }
 
+        /* ИСПРАВЛЕННАЯ СЕТКА: Минимум 320px на карточку, иначе перенос */
         .rom-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 25px;
             max-width: 1450px;
             width: 100%;
             z-index: 10;
         }
 
-        /* КАРТОЧКА С ЭФФЕКТОМ ВСПЫШКИ */
         .rom-card {
             position: relative;
             background: rgba(255, 255, 255, 0.03);
@@ -92,20 +91,19 @@
             display: flex;
             flex-direction: column;
             transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 0 0 rgba(99, 102, 241, 0); /* Изначально тени нет */
+            box-shadow: 0 0 0 rgba(99, 102, 241, 0);
         }
 
         .rom-card:hover {
-            transform: translateY(-10px) scale(1.03);
+            transform: translateY(-10px) scale(1.02);
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(129, 140, 248, 0.5);
-            /* Эффект вспышки вокруг карточки */
             box-shadow: 0 0 40px 5px var(--flash-color), 0 20px 40px rgba(0,0,0,0.6);
         }
 
         .rom-name { font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
-        .codename { color: var(--accent); font-family: monospace; font-size: 0.9rem; margin-bottom: 20px; display: block; }
-        .version { color: var(--accent); font-family: monospace; font-size: 0.9rem; margin-bottom: 20px; display: block; }
+        .version { color: var(--accent); font-family: monospace; font-size: 0.9rem; margin-bottom: 5px; display: block; }
+        .codename { color: var(--accent); font-family: monospace; font-size: 0.9rem; margin-bottom: 20px; display: block; opacity: 0.7; }
         
         .changelog {
             flex-grow: 1;
@@ -117,10 +115,11 @@
             margin-bottom: 25px;
         }
         .changelog ul { margin: 6px 0 0 18px; padding: 0; }
+        .changelog li { margin-bottom: 5px; }
 
         .button-row {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             width: 100%;
         }
 
@@ -128,16 +127,17 @@
             flex: 1;
             text-align: center;
             text-decoration: none;
-            padding: 15px 5px;
-            border-radius: 18px;
+            padding: 14px 5px;
+            border-radius: 16px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.8rem; /* Чуть уменьшил, чтобы влезало */
             transition: all 0.3s;
             background: #ffffff;
             color: #000000 !important;
             display: flex;
             align-items: center;
             justify-content: center;
+            white-space: nowrap; /* Запрет переноса текста в кнопке */
         }
 
         .btn:hover {
@@ -146,9 +146,7 @@
             transform: translateY(-2px);
         }
 
-        @media (max-width: 1300px) { .rom-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 750px) { 
-            .rom-grid { grid-template-columns: 1fr; } 
             .button-row { flex-direction: column; }
             h1 { font-size: 3rem; }
         }
@@ -179,13 +177,11 @@
             <div class="changelog">
                 <strong>Changelog and bugs:</strong>
                 <ul>
-                    <li>Pre-root SukiSU Ultra with SusFS <li>
-                    <li>Modded systeam apps by @kakashi1v1 and other</li>
-                    <li>Now you can chose: root or rootless </li>
-                    <li>Incorrect memory mapping in settings </li>
-                    <li>Based on Redmi K80 Ultra (dali) </li>
-
-                    </li>
+                    <li>Pre-root SukiSU Ultra with SusFS</li>
+                    <li>Modded system apps by @kakashi1v1</li>
+                    <li>Choice: root or rootless</li>
+                    <li>Incorrect memory mapping in settings</li>
+                    <li>Based on Redmi K80 Ultra (dali)</li>
                 </ul>
             </div>
             <div class="button-row">
@@ -194,8 +190,6 @@
             </div>
         </div>
 
-        <div class="rom-grid">
-        
         <div class="rom-card">
             <span class="rom-name">TengeOS Mod</span>
             <span class="version">3.0.5.0 WNLCNXM</span>
@@ -203,12 +197,10 @@
             <div class="changelog">
                 <strong>Changelog and bugs:</strong>
                 <ul>
-                    <li>Pre-root SukiSU Ultra with SusFS <li>
-                    <li>Modded systeam apps by @kakashi1v1 and other </li>
-                    <li>Now you can chose: root or rootless </li>
-                    <li>Based on official HyperOS build </li>
-
-                    </li>
+                    <li>Pre-root SukiSU Ultra with SusFS</li>
+                    <li>Modded system apps by @kakashi1v1</li>
+                    <li>Choice: root or rootless</li>
+                    <li>Based on official HyperOS build</li>
                 </ul>
             </div>
             <div class="button-row">
@@ -216,7 +208,6 @@
                 <a href="https://gofile.io/d/8eaEC5" target="_blank" class="btn">Download ROM</a>
             </div>
         </div>
-        </div>
 
-</body>
+    </div> </body>
 </html>
