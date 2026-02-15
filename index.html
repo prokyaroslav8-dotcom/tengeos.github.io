@@ -9,25 +9,21 @@
             --accent: #007aff; 
             --text-main: #ffffff;
             --text-dim: #a1a1a6;
-            /* Затемненные цвета HyperOS */
-            --hp-blue: #0f172a;
-            --hp-purple: #2e1065;
-            --hp-pink: #4c0519;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            padding: 40px 15px;
+            padding: 60px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             color: var(--text-main);
             min-height: 100vh;
-            /* ТЕМНЫЙ анимированный фон */
-            background: linear-gradient(-45deg, #020617, #0f172a, #1e1b4b, #2e1065, #020617);
+            /* Чуть более светлый анимированный фон */
+            background: linear-gradient(-45deg, #0f172a, #1e3a8a, #3b0764, #701a75, #0f172a);
             background-size: 400% 400%;
-            animation: hyperGradient 18s ease infinite;
+            animation: hyperGradient 15s ease infinite;
             background-attachment: fixed;
         }
 
@@ -37,121 +33,176 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Увеличенные отступы в шапке */
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 80px; /* Больше места до карточек */
         }
 
         h1 {
-            font-size: 3.5rem;
-            margin: 0;
+            font-size: 4rem;
+            margin: 0 0 25px 0; /* Отступ под TengeOS */
             letter-spacing: -2px;
-            color: #ffffff; /* Чисто белый шрифт */
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
         }
 
         .telegram-link {
             display: inline-block;
-            margin-top: 10px;
+            margin-bottom: 25px;
             color: #38bdf8;
             text-decoration: none;
             font-weight: 600;
+            font-size: 1.1rem;
         }
 
-        .credits { margin-top: 15px; font-size: 0.85rem; color: rgba(255,255,255,0.3); }
-        .credits a { color: rgba(255,255,255,0.6); text-decoration: none; border-bottom: 1px solid var(--accent); }
+        .credits { 
+            font-size: 0.9rem; 
+            color: rgba(255,255,255,0.4); 
+            margin-top: 10px;
+        }
+        .credits a { color: #fff; text-decoration: none; border-bottom: 1px solid var(--accent); }
 
         .rom-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1400px;
+            gap: 25px;
+            max-width: 1600px;
             width: 100%;
         }
 
         .rom-card {
             position: relative;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 24px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 28px;
             padding: 24px;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease;
-            z-index: 1; /* Базовый слой */
+            z-index: 1;
         }
 
-        .rom-card:hover {
-            transform: translateY(-8px);
-        }
+        .rom-card:hover { transform: translateY(-10px); }
 
         /* Градиентная рамка */
         .rom-card::before {
             content: "";
             position: absolute;
             top: -1px; left: -1px; right: -1px; bottom: -1px;
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 2px;
             background: linear-gradient(45deg, #3b82f6, #a855f7, #ec4899);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             opacity: 0;
             transition: opacity 0.3s ease;
-            z-index: -1; /* Уходим под контент, чтобы не мешать кликам */
+            z-index: -1;
+        }
+        .rom-card:hover::before { opacity: 1; }
+
+        /* СЛАЙДЕР СКРИНШОТОВ */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            margin: 15px 0;
+            overflow: hidden;
+            border-radius: 16px;
         }
 
-        .rom-card:hover::before {
-            opacity: 1;
-        }
-
-        .rom-header {
+        .slider-track {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            pointer-events: none; /* Пропускает клики сквозь заголовок */
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
         }
 
-        .rom-name { font-size: 1.3rem; font-weight: 700; color: #fff; }
-        .version { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 12px; }
-        
+        .slide {
+            min-width: 80%; /* Чтобы края соседних были видны */
+            margin: 0 10%;
+            background: #222;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Кнопки влево-вправо */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 5;
+            font-weight: bold;
+        }
+        .btn-prev { left: 5px; }
+        .btn-next { right: 5px; }
+        .slider-btn:hover { background: var(--accent); }
+
+        /* Точки навигации */
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+        .dot.active { background: var(--accent); width: 12px; border-radius: 4px; }
+
+        .rom-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; display: block; }
         .codename { color: #38bdf8; font-family: monospace; font-size: 0.85rem; margin-bottom: 15px; display: block; }
 
         .changelog {
-            flex-grow: 1;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             padding: 15px;
             border-radius: 16px;
             font-size: 0.85rem;
-            color: #9ca3af;
+            color: #d1d5db;
             margin-bottom: 20px;
-            pointer-events: none;
         }
-
         .changelog ul { margin: 5px 0 0 18px; padding: 0; }
 
         .download-btn {
-            position: relative;
-            z-index: 10; /* Кнопка ВСЕГДА сверху */
+            z-index: 10;
             display: block;
             text-align: center;
-            background: #ffffff;
-            color: #000000 !important;
+            background: #fff;
+            color: #000 !important;
             text-decoration: none;
             padding: 12px;
             border-radius: 14px;
             font-weight: 700;
-            font-size: 0.9rem;
-            transition: transform 0.2s, background 0.2s;
+            transition: all 0.2s;
         }
+        .download-btn:hover { background: var(--accent); color: #fff !important; }
 
-        .download-btn:hover {
-            background: #f0f0f0;
-            transform: scale(1.02);
-        }
-
-        @media (max-width: 1200px) { .rom-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 650px) { .rom-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1400px) { .rom-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 700px) { .rom-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -166,23 +217,56 @@
     <div class="rom-grid">
         
         <div class="rom-card">
-            <div class="rom-header">
-                <span class="rom-name">TengeOS Build</span>
-                <span class="version">v1.0</span>
-            </div>
+            <span class="rom-name">TengeOS Build</span>
             <span class="codename">#sweet</span>
+
+            <div class="slider-container">
+                <button class="slider-btn btn-prev" onclick="moveSlider(this, -1)">&lt;</button>
+                <div class="slider-track">
+                    <div class="slide"><img src="https://via.placeholder.com/400x800/222/fff?text=Screen+1" alt="Screenshot 1"></div>
+                    <div class="slide"><img src="https://via.placeholder.com/400x800/333/fff?text=Screen+2" alt="Screenshot 2"></div>
+                    <div class="slide"><img src="https://via.placeholder.com/400x800/444/fff?text=Screen+3" alt="Screenshot 3"></div>
+                </div>
+                <button class="slider-btn btn-next" onclick="moveSlider(this, 1)">&gt;</button>
+            </div>
+            <div class="dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
             <div class="changelog">
                 <strong>Changelog:</strong>
                 <ul>
-                    <li>Deep Dark Theme</li>
-                    <li>HyperOS 3 Base</li>
-                    <li>Performance Mode</li>
+                    <li>HyperOS Base</li>
+                    <li>Premium Blur</li>
+                    <li>Battery Fix</li>
                 </ul>
             </div>
-            <a href="https://google.com" target="_blank" class="download-btn">Download ROM</a>
+            <a href="#" target="_blank" class="download-btn">Download ROM</a>
+        </div>
         </div>
 
-        </div>
+    <script>
+        // Скрипт для работы слайдера
+        function moveSlider(btn, direction) {
+            const container = btn.parentElement;
+            const track = container.querySelector('.slider-track');
+            const dots = container.nextElementSibling.querySelectorAll('.dot');
+            let currentIdx = parseInt(track.dataset.index || 0);
+            
+            currentIdx += direction;
+            
+            if (currentIdx < 0) currentIdx = 2; // Если начало - в конец
+            if (currentIdx > 2) currentIdx = 0; // Если конец - в начало
+            
+            track.style.transform = `translateX(-${currentIdx * 100}%)`;
+            track.dataset.index = currentIdx;
+
+            // Обновляем точки
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIdx].classList.add('active');
+        }
+    </script>
 
 </body>
 </html>
