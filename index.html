@@ -6,23 +6,36 @@
     <title>TengeOS | HyperOS Project</title>
     <style>
         :root {
-            --bg-color: #0a0a0c;
-            --card-bg: rgba(255, 255, 255, 0.03);
             --accent: #007aff; 
-            --accent-hover: #3395ff;
             --text-main: #ffffff;
             --text-dim: #a1a1a6;
+            /* Цвета HyperOS 3 */
+            --hp-blue: #1e3a8a;
+            --hp-purple: #581c87;
+            --hp-pink: #831843;
         }
 
+        /* Анимированный фон как в HyperOS */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: radial-gradient(circle at top, #1c1c1e 0%, #0a0a0c 100%);
-            color: var(--text-main);
             margin: 0;
             padding: 40px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: var(--text-main);
+            min-height: 100vh;
+            
+            background: linear-gradient(-45deg, #0f172a, #1e3a8a, #581c87, #831843, #1e1b4b);
+            background-size: 400% 400%;
+            animation: hyperGradient 15s ease infinite;
+            background-attachment: fixed;
+        }
+
+        @keyframes hyperGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         header {
@@ -34,92 +47,110 @@
             font-size: 3.5rem;
             margin: 0;
             letter-spacing: -2px;
-            background: linear-gradient(to bottom, #fff, #888);
+            background: linear-gradient(to bottom, #fff, #aaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 1.1rem;
-            margin-top: 10px;
         }
 
         .telegram-link {
             display: inline-block;
             margin-top: 10px;
-            color: #0088cc;
+            color: #38bdf8;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
         }
 
-        .credits { margin-top: 15px; font-size: 0.85rem; color: #555; }
-        .credits a { color: var(--accent); text-decoration: none; }
+        .credits { margin-top: 15px; font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+        .credits a { color: #fff; text-decoration: none; border-bottom: 1px solid var(--accent); }
 
-        /* 4 cards in a row on large screens */
+        /* Сетка 4 в ряд */
         .rom-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            gap: 20px;
             max-width: 1400px;
             width: 100%;
         }
 
+        /* Карточка с эффектом градиентной обводки */
         .rom-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 20px;
-            backdrop-filter: blur(15px);
+            position: relative;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+            overflow: hidden;
         }
 
+        /* Магия градиентной обводки при наведении */
         .rom-card:hover {
-            border-color: rgba(0, 122, 255, 0.5);
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            border-color: transparent;
+        }
+
+        .rom-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 24px;
+            padding: 2px; /* Толщина рамки */
+            background: linear-gradient(45deg, #3b82f6, #a855f7, #ec4899);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .rom-card:hover::before {
+            opacity: 1;
         }
 
         .rom-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
-        .rom-name { font-size: 1.2rem; font-weight: 700; }
-        .version { font-size: 0.7rem; background: var(--accent); padding: 2px 8px; border-radius: 10px; }
+        .rom-name { font-size: 1.3rem; font-weight: 700; }
+        .version { font-size: 0.75rem; background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 12px; }
         
-        .codename { color: var(--accent); font-family: monospace; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+        .codename { color: #38bdf8; font-family: monospace; font-size: 0.85rem; margin-bottom: 15px; display: block; }
 
         .changelog {
             flex-grow: 1;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 12px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 16px;
             font-size: 0.85rem;
-            color: var(--text-dim);
+            color: #d1d5db;
             margin-bottom: 20px;
         }
 
-        .changelog ul { margin: 5px 0 0 15px; padding: 0; }
+        .changelog ul { margin: 5px 0 0 18px; padding: 0; }
 
         .download-btn {
             display: block;
             text-align: center;
-            background: var(--accent);
-            color: white;
+            background: #fff;
+            color: #000;
             text-decoration: none;
-            padding: 10px;
-            border-radius: 12px;
-            font-weight: 600;
+            padding: 12px;
+            border-radius: 14px;
+            font-weight: 700;
             font-size: 0.9rem;
+            transition: opacity 0.2s;
         }
 
-        /* Adjustments for smaller screens */
+        .download-btn:hover { opacity: 0.9; }
+
+        /* Адаптивность */
         @media (max-width: 1200px) { .rom-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 650px) { .rom-grid { grid-template-columns: 1fr; } }
     </style>
@@ -128,7 +159,7 @@
 
     <header>
         <h1>TengeOS</h1>
-        <div class="subtitle">Custom ROMs based on HyperOS</div>
+        <div class="subtitle">Next-gen HyperOS Experience</div>
         <a href="https://t.me/TengeOS_Roms" class="telegram-link">Telegram: TengeOS_Roms</a>
         <div class="credits">by <a href="#">@wectazz</a> and <a href="#">@iduchamp</a></div>
     </header>
@@ -137,19 +168,20 @@
         
         <div class="rom-card">
             <div class="rom-header">
-                <span class="rom-name">TengeOS Build</span>
-                <span class="version">v1.0</span>
+                <span class="rom-name">TengeOS Stable</span>
+                <span class="version">v3.0.300.4CO5 CN</span>
             </div>
-            <span class="codename">#device_name</span>
+            <span class="codename">duchamp</span>
             <div class="changelog">
                 <strong>Changelog:</strong>
                 <ul>
-                    <li>HyperOS Base</li>
-                    <li>Smooth UI</li>
-                    <li>Fixed bugs</li>
+                    <li>Port for POCO X6 Pro (duchamp)</li>
+                    <li>Based on Redmi K80 Ultra (dali)</li>
+                    <li>Fixed bootloop</li>
+                    <li>Pre-rooted SukiSU Ultra with SusFS (you can choose rootless)</li>
                 </ul>
             </div>
-            <a href="#" class="download-btn">Download ROM</a>
+            <a href="https://drive.google.com/file/d/1pRKrcdmdKFNE9hOiZ7PafHSue2vBiiOB/view?usp=sharing" class="download-btn">Download ROM</a>
         </div>
         </div>
 
